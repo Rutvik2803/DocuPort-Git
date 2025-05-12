@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import axios from '../api/axiosInstance';
 
 export default function Upload() {
   const [file, setFile] = useState(null);
   const [userId, setUserId] = useState(""); // ideally comes from auth
+  const [uploadSuccess, setUploadSuccess] = useState(false); // Flag to show button after upload
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +22,14 @@ export default function Upload() {
     try {
       await axios.post('/upload/', formData);
       alert('Upload successful');
+      setUploadSuccess(true); // Show dashboard button
     } catch (err) {
       alert('Upload failed');
     }
+  };
+
+  const goToDashboard = () => {
+    navigate('/dashboard');
   };
 
   return (
@@ -40,8 +48,21 @@ export default function Upload() {
           className="border p-2 w-full"
           onChange={e => setFile(e.target.files[0])}
         />
-        <button className="bg-green-500 text-white py-2 px-4 rounded">Upload</button>
+        <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded">
+          Upload
+        </button>
       </form>
+
+      {uploadSuccess && (
+        <div className="mt-6">
+          <button
+            onClick={goToDashboard}
+            className="bg-blue-600 text-white py-2 px-4 rounded"
+          >
+            Go to Dashboard
+          </button>
+        </div>
+      )}
     </div>
   );
 }
