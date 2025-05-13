@@ -5,9 +5,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Dashboard from './Dashboard.jsx';
 import Login from './Login.jsx';
+import Upload from './Upload.jsx';
 
 import './Dashboard.css';
 import './Login.css';
+import './Upload.css';
 
 function App() {
   const [userId, setUserId] = useState('');
@@ -17,6 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login onLogin={setUserId} />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/upload" element={<Upload />} />
       </Routes>
     </BrowserRouter>
   );
@@ -27,4 +30,3 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>
 );
-

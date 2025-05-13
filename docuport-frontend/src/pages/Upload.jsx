@@ -1,11 +1,13 @@
+// Upload.jsx
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import axios from '../api/axiosInstance';
+import './Upload.css'; // Import styles
 
 export default function Upload() {
   const [file, setFile] = useState(null);
-  const [userId, setUserId] = useState(""); // ideally comes from auth
-  const [uploadSuccess, setUploadSuccess] = useState(false); // Flag to show button after upload
+  const [userId, setUserId] = useState('');
+  const [uploadSuccess, setUploadSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,7 +24,7 @@ export default function Upload() {
     try {
       await axios.post('/upload/', formData);
       alert('Upload successful');
-      setUploadSuccess(true); // Show dashboard button
+      setUploadSuccess(true);
     } catch (err) {
       alert('Upload failed');
     }
@@ -33,32 +35,29 @@ export default function Upload() {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-xl font-semibold mb-4">Upload File</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="upload-container">
+      <h1 className="upload-title">Upload File</h1>
+      <form onSubmit={handleSubmit} className="upload-form">
         <input
           type="text"
           placeholder="Enter your user ID"
-          className="border p-2 w-full"
+          className="upload-input"
           value={userId}
-          onChange={e => setUserId(e.target.value)}
+          onChange={(e) => setUserId(e.target.value)}
         />
         <input
           type="file"
-          className="border p-2 w-full"
-          onChange={e => setFile(e.target.files[0])}
+          className="upload-input"
+          onChange={(e) => setFile(e.target.files[0])}
         />
-        <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded">
+        <button type="submit" className="upload-button">
           Upload
         </button>
       </form>
 
       {uploadSuccess && (
-        <div className="mt-6">
-          <button
-            onClick={goToDashboard}
-            className="bg-blue-600 text-white py-2 px-4 rounded"
-          >
+        <div className="upload-success">
+          <button onClick={goToDashboard} className="dashboard-button">
             Go to Dashboard
           </button>
         </div>
