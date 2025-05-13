@@ -147,3 +147,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # keep this for admin/superuser
 ]
 
+# settings.py
+STATICFILES_DIRS = [
+    BASE_DIR / "frontend" / "dist",  # path to built frontend assets
+]
