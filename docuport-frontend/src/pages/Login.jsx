@@ -1,39 +1,40 @@
 import { useState } from 'react';
 import axios from '../api/axiosInstance';
-import { useNavigate } from 'react-router-dom'; // already imported
+import { useNavigate } from 'react-router-dom';
+import './Login.css'; // Import the styles
 
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // ✅ STEP 1: Initialize navigate
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post('/login/', { email, password });
       alert('Login successful');
-      onLogin(res.data.user_id);          // call login handler
-      navigate('/dashboard');             // ✅ STEP 2: Redirect after login
+      onLogin(res.data.user_id);
+      navigate('/dashboard');
     } catch (err) {
       alert('Login failed');
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow-md w-96">
-        <h2 className="text-xl font-semibold mb-4">Login</h2>
+    <div className="login-container">
+      <form onSubmit={handleLogin} className="login-form">
+        <h2 className="login-title">Login</h2>
         <input
           type="email" placeholder="Email"
-          className="w-full border p-2 mb-4"
+          className="login-input"
           value={email} onChange={e => setEmail(e.target.value)}
         />
         <input
           type="password" placeholder="Password"
-          className="w-full border p-2 mb-4"
+          className="login-input"
           value={password} onChange={e => setPassword(e.target.value)}
         />
-        <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">Login</button>
+        <button type="submit" className="login-button">Login</button>
       </form>
     </div>
   );
