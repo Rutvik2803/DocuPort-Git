@@ -6,10 +6,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Dashboard from './Dashboard.jsx';
 import Login from './Login.jsx';
 import Upload from './Upload.jsx';
+import Welcome from './Welcome.jsx';
 
 import './Dashboard.css';
 import './Login.css';
 import './Upload.css';
+import './Welcome.css';
 
 function App() {
   const [userId, setUserId] = useState('');
@@ -20,6 +22,7 @@ function App() {
         <Route path="/" element={<Login onLogin={setUserId} />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/upload" element={<Upload />} />
+        <Route path="/welcome" element={<Welcome />} />
       </Routes>
     </BrowserRouter>
   );

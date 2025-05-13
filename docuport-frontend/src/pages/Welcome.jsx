@@ -8,7 +8,7 @@ export default function Welcome() {
   return (
     <div className="welcome-container">
       <div className="welcome-box">
-        <h1>Welcome to DocuPort</h1>
+        <h1>Welcome to DocuPort: An online Portfolio storage portal</h1>
         <button onClick={() => navigate('/login')}>
           Go to Login
         </button>
