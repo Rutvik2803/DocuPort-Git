@@ -82,7 +82,7 @@ export default function Dashboard() {
             >
               <span className="truncate max-w-sm">{file.filename}</span>
               <a
-                href={`http://localhost:8000/download/${file.filename}`}
+                href={`http://localhost:8000/download/${file.id}`}
                 className="text-blue-600 hover:underline"
                 target="_blank"
                 rel="noreferrer"
@@ -96,4 +96,4 @@ export default function Dashboard() {
     </div>
   );
 }
-console.log("Dashboard userId:", userId);
+

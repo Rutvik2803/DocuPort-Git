@@ -26,7 +26,8 @@ def upload_file(request):
         if not file or not user_id:
             return JsonResponse({'error': 'Missing file or user_id'}, status=400)
 
-        # TODO: Handle saving the file if needed, associate with user_id, etc.
+        # Save to model
+        Document.objects.create(user_id=user_id, file=file)
 
         return JsonResponse({'message': 'Upload successful'}, status=200)
 
@@ -50,7 +51,7 @@ def get_user_files(request):
         file_list = [{
             'id': doc.id,
             'filename': doc.file.name.split('/')[-1],
-            'upload_time': doc.upload_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'uploaded_at': doc.uploaded_at.strftime('%Y-%m-%d %H:%M:%S'),
         } for doc in documents]
         return JsonResponse(file_list, safe=False)
 

@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.dashboard, name='dashboard'),
@@ -7,4 +9,4 @@ urlpatterns = [
     path('download/<int:pk>/', views.download_file, name='download'),
     path('login/', views.login_view, name='login'),  # ✅ Added login API endpoint
     path('get-files/', views.get_user_files, name='get_user_files'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
