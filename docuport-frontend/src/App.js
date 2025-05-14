@@ -17,6 +17,11 @@ function AppRoutes() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
   const navigate = useNavigate();
 
+  
+  const handleHome = () => {
+    navigate('/');
+  };
+
   const handleLogin = (id) => {
     localStorage.setItem('user_id', id);
     setUserId(id);
@@ -32,11 +37,26 @@ function AppRoutes() {
     <div>
       <nav className="p-4 bg-blue-600 text-white flex justify-between">
         <span>{userId ? `Welcome, User ${userId}` : 'DocuPort'}</span>
-        {userId && (
-          <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded">
-            Logout
+        
+        <div className="flex gap-2">
+          {/* Home button is always shown */}
+          <button
+            onClick={handleHome}
+            className="bg-green-500 px-3 py-1 rounded"
+          >
+            Home
           </button>
-        )}
+
+          {/* Logout only shows when logged in */}
+          {userId && (
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 px-3 py-1 rounded"
+            >
+              Logout
+            </button>
+          )}
+        </div>
       </nav>
 
       <Routes>
