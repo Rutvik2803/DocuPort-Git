@@ -1,4 +1,3 @@
-// App.js
 import { useState } from 'react';
 import {
   BrowserRouter as Router,
@@ -6,6 +5,7 @@ import {
   Route,
   Navigate,
   useNavigate,
+  useLocation,
 } from 'react-router-dom';
 
 import Login from './pages/Login';
@@ -16,8 +16,8 @@ import Welcome from './pages/Welcome';
 function AppRoutes() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
   const navigate = useNavigate();
+  const location = useLocation(); // 👈 get the current route path
 
-  
   const handleHome = () => {
     navigate('/');
   };
@@ -30,34 +30,35 @@ function AppRoutes() {
   const handleLogout = () => {
     localStorage.removeItem('user_id');
     setUserId(null);
-    navigate('/'); // ✅ Redirect to Welcome page
+    navigate('/');
   };
 
   return (
     <div>
-      <nav className="p-4 bg-blue-600 text-white flex justify-between">
-        <span>{userId ? `Welcome, User ${userId}` : 'DocuPort'}</span>
-        
-        <div className="flex gap-2">
-          {/* Home button is always shown */}
-          <button
-            onClick={handleHome}
-            className="bg-green-500 px-3 py-1 rounded"
-          >
-            Home
-          </button>
+      {/* 👇 Conditionally render the navbar only if not on the Welcome page */}
+      {location.pathname !== '/' && (
+        <nav className="p-4 bg-blue-600 text-white flex justify-between">
+          <span>{userId ? `Welcome, User ${userId}` : 'DocuPort'}</span>
 
-          {/* Logout only shows when logged in */}
-          {userId && (
+          <div className="flex gap-2">
             <button
-              onClick={handleLogout}
-              className="bg-red-500 px-3 py-1 rounded"
+              onClick={handleHome}
+              className="bg-green-500 px-3 py-1 rounded"
             >
-              Logout
+              Home
             </button>
-          )}
-        </div>
-      </nav>
+
+            {userId && (
+              <button
+                onClick={handleLogout}
+                className="bg-red-500 px-3 py-1 rounded"
+              >
+                Logout
+              </button>
+            )}
+          </div>
+        </nav>
+      )}
 
       <Routes>
         <Route path="/" element={<Welcome />} />
@@ -66,7 +67,6 @@ function AppRoutes() {
         <Route path="/upload" element={userId ? <Upload /> : <Navigate to="/login" />} />
       </Routes>
     </div>
-
   );
 }
 
