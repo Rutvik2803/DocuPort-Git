@@ -1,12 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Great+Vibes&family=Dancing+Script&display=swap');
+
+info{
+  overflow-x: hidden;
+  
+}
 .welcome-layout {
   display: flex;
   height: 100vh;
   overflow: hidden;
-  font-family: sans-serif;
+  font-family: 'Merriweather', serif;
+
 }
 
 .sidebar {
-  width: 500px;
+  width: 350px;
   background-color: #a3cef1;
   color: #073b4c;
   font-weight: bold;
@@ -23,7 +30,7 @@
   text-align: center;
 }
 .sidebar p{
-  font-size: 28px;
+  font-size: 25px;
   font-weight: bold;
   color: #fff;
 }
@@ -31,12 +38,12 @@
   margin-top: 1rem;
   background-color: #0077b6;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 5px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  width: 30%;
-  margin-left: 35%;
+  width: 25%;
+  margin-left: 37%;
 }
 .sidebar button:hover {
   background-color: #00a8e8;
@@ -45,33 +52,26 @@
 .nav-list-bar{
   display: flex;
   justify-content: center;
-  width: 430px;
   gap: 10px;
-
 }
 
 .nav-list {
   list-style: none;
-  margin-top: 0rem;
-  padding-left: 0;
   font-size: 18px;
   display: flex;
   flex-direction: row;
   background-color: #0077b6;
   justify-content: center;
-  height: 120px;
-  border-radius: 12px;
-  width: 120px;
+  height: 100px;
+  width: 100px;
   cursor: pointer;
 }
 
 .nav-list:hover{
-  background-color: #00bbf9;
+  background-color: #4bd5eb;
 }
 
 .nav-list li {
-  margin-top: 10px;
-  margin-bottom: 0px;
   color: white;
   font-weight: lighter;
   padding: 10px;
@@ -81,7 +81,6 @@
 .nav-list2 {
   list-style: none;
   margin-top: 1rem;
-  padding-left: 0;
   display: flex;
   flex-direction: row;
   font-size: 15px;
@@ -104,7 +103,6 @@
   padding: 2rem;
   background-color: #f0f2f5;
 }
-
 .hero-section img {
   width: 100%;
   border-radius: 12px;
@@ -116,15 +114,249 @@
   justify-content: center;
   text-align: center;
   color: #6c757d;
+  margin-bottom: 3%;
+}
+
+.small-icons{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 70px;
+  margin-top: 10%;
+  color: #6c757d;
+  font-size: 20px;
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+}
+.small-icon{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.small-icons img{
+  width: 50px;
+  height: 50px;
+  background-color: #a3cef1;
+  border-radius: 12px;
+  padding: 10px;
+}
+.about{
+  margin-top: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 8%;
+}
+.about img{
+  width: 45%;
+  height: 450px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.about h1{
+  font-weight: bold;
+  font-size: 50px;
+  color: #073b4c;
+}
+.about p{
+  font-size: 25px;
+  color: #595959;
+}
+/* Initial hidden state */
+.about-text,
+.about img {
+  opacity: 0;
+  transform: translateX(0);
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.about-text {
+  transform: translateX(-100px);
+}
+
+.about img {
+  transform: translateX(100px);
+}
+
+/* When in view */
+.animate-about .about-text,
+.animate-about img {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.info-images{
+  margin-top: 15%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.info-images img{
+  width: 45%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.info-images {
+  margin-top: 15%;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.info-images img {
+  width: 45%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+/* Slide in directions */
+.info-images img:first-child {
+  transform: translateX(-100px);
+}
+
+.info-images img:last-child {
+  transform: translateX(100px);
+}
+
+/* When in view */
+.info-images.animate-infoimages img {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hover effect */
+.info-images img:hover {
+  transform: scale(1.05);
+  transition: transform 0.5s ease;
+}
+
+
+.features{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 20%;
+  
+}
+.features img{
+  width: 45%;
+  height: 450px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+.features h1{
+  font-weight: bold;
+  font-size: 50px;
+  color: #073b4c;
+}
+
+.features-text{
+  margin-right: 15%;
+}
+.features-text p{
+  font-size: 25px;
+  color: #595959;
+}
+
+/* Initial hidden state */
+.features-text,
+.features img {
+  opacity: 0;
+  transform: translateX(0);
+  transition: transform 1s ease, opacity 1s ease;
+}
+
+.features-text {
+  transform: translateX(100px);
+}
+
+.features img {
+  transform: translateX(-100px);
+}
+
+/* When in view */
+.animate-features .features-text,
+.animate-features img {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.heading-info{
+  font-size: 30px;
+  text-align: center;
+  margin-top: 30%;
+  color: #073b4c;
+  font-weight: bold;
+}
+.description-2{
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: #6c757d;
+}
+.info-icons{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 70px;
+  margin-top: 20%;
+  color: #6c757d;
+  font-size: 20px;
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+}
+.info-icons img{
+  width: 250px;
+  height: 250px;
+  background-color: #a3cef1;
+  border-radius: 12px;
+  padding: 30px;
+}
+.info-icons p{
+  margin-top: 5px;
+}
+
+.image-container {
+  position: relative;
+  margin-top: 20%;
+  margin-bottom: 20%;
+}
+
+.image-container img {
+  width: 100%;
+  height: 700px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  display: block;
+  filter: blur(5px);
+}
+
+.image-text {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  font-size: 34px;
+  font-weight: bold;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+
+.footer-section{
+  background-color: #d7d9ce;
+  padding: 50px;
+  border-radius: 12px;
 }
 .contact-section {
-  margin-top: 3rem;
   background: white;
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 400px;
-  margin-left: 35%;
+  margin-left: 36%;
 }
 
 .contact-section h2 {
@@ -158,16 +390,9 @@
 .contact-form button:hover {
   background-color: #0056b3;
 }
-.spacer-section {
-  padding: 2rem;
-  background: #fff;
-  margin: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  line-height: 1.8;
-}
+
 .socials-section {
-  padding: 40px 20px;
+  padding-top: 40px;
   text-align: center;
 }
 
