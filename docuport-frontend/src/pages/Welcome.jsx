@@ -182,7 +182,7 @@ useEffect(() => {
         <div className="about-text">
           <h1>About</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Itaque tenetur eaque sed quo sit, alias hic molestiae, quaerat eius ipsam inventore, temporibus accusamus sunt quia magni accusantium? Nihil, minima sed.
+            DocuPort is a digital document management solution that prioritizes confidentiality and integrity of sensitive information. It offers advanced encryption and authentication protocols, preventing risks like limited accessibility, inconvenience, and environmental impact. Users can create documents for easy retrieval and collaborate in real-time, providing efficient document handling. DocuPort offers cloud storage, a user-friendly interface, and security measures. This project enhanced critical thinking, problem-solving, teamwork, and time management abilities.
           </p>
         </div>
         <img src="information.jpg" alt="secondary_visuals" />

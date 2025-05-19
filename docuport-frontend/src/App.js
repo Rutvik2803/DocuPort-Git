@@ -30,9 +30,6 @@ function AppRoutes() {
     }
   }, [setUser]);
 
-  const handleHome = () => {
-    navigate('/');
-  };
 
   const handleLogin = (id, email) => {
     localStorage.setItem('user_id', id);
@@ -40,12 +37,18 @@ function AppRoutes() {
     setUser({ id, email });
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('user_email');
-    setUser(null);
-    navigate('/');
-  };
+const handleLogout = () => {
+  localStorage.removeItem('user_id');
+  localStorage.removeItem('user_email'); // ✅ Optional: clear email too
+  setUser(null);
+  navigate('/');
+};
+
+
+const handleHome = () => {
+  navigate('/'); // ✅ Just go to the welcome page
+};
+
 
   return (
     <div>
