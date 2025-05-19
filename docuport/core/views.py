@@ -26,18 +26,15 @@ def dashboard(request):
 def upload_file(request):
     if request.method == 'POST':
         file = request.FILES.get('file')
-        user_id = request.POST.get('user_id')
 
-        if not file or not user_id:
-            return JsonResponse({'error': 'Missing file or user_id'}, status=400)
+        if not file:
+            return JsonResponse({'error': 'Missing file'}, status=400)
 
-        # Save to model
-        Document.objects.create(user_id=user_id, file=file)
+        Document.objects.create(user=request.user, file=file)
 
         return JsonResponse({'message': 'Upload successful'}, status=200)
 
     return JsonResponse({'error': 'Method not allowed'}, status=405)
-
 @login_required
 def download_file(request, pk):
     doc = Document.objects.get(id=pk, user=request.user)
@@ -45,23 +42,14 @@ def download_file(request, pk):
 
 @login_required
 def get_user_files(request):
-    user_id = request.GET.get('user_id')
+    documents = Document.objects.filter(user=request.user)
+    file_list = [{
+        'id': doc.id,
+        'filename': doc.file.name.split('/')[-1],
+        'uploaded_at': doc.uploaded_at.strftime('%Y-%m-%d %H:%M:%S'),
+    } for doc in documents]
+    return JsonResponse(file_list, safe=False)
 
-    if not user_id:
-        return JsonResponse({'error': 'User ID not provided'}, status=400)
-
-    try:
-        user = User.objects.get(id=user_id)
-        documents = Document.objects.filter(user=user)
-        file_list = [{
-            'id': doc.id,
-            'filename': doc.file.name.split('/')[-1],
-            'uploaded_at': doc.uploaded_at.strftime('%Y-%m-%d %H:%M:%S'),
-        } for doc in documents]
-        return JsonResponse(file_list, safe=False)
-
-    except User.DoesNotExist:
-        return JsonResponse({'error': 'User not found'}, status=404)
 
 @csrf_exempt
 def login_view(request):

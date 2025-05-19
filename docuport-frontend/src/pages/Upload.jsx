@@ -1,25 +1,25 @@
-// Upload.jsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/axiosInstance';
-import './Upload.css'; // Import styles
+import { useAuth } from '../context/AuthContext'; // ✅ import context
+import './Upload.css';
 
 export default function Upload() {
+  const { user } = useAuth(); // ✅ get logged-in user
   const [file, setFile] = useState(null);
-  const [userId, setUserId] = useState('');
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!file || !userId) {
-      alert("Please select a file and enter user ID.");
+    if (!file || !user) {
+      alert("Please select a file and make sure you're logged in.");
       return;
     }
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('user_id', userId);
+    formData.append('user_id', user.id); // ✅ automatically use user ID
 
     try {
       await axios.post('/upload/', formData);
@@ -38,13 +38,6 @@ export default function Upload() {
     <div className="upload-container">
       <h1 className="upload-title">Upload File</h1>
       <form onSubmit={handleSubmit} className="upload-form">
-        <input
-          type="text"
-          placeholder="Enter your user ID"
-          className="upload-input"
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-        />
         <input
           type="file"
           className="upload-input"

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from '../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import './Login.css'; // reuse your existing styles
+import './Login.css';
 
 export default function OTPLogin({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ export default function OTPLogin({ onLogin }) {
     try {
       const res = await axios.post('/verify-otp/', { email, code: otp });
       alert('Login successful');
-      onLogin(res.data.user_id);
+      onLogin(res.data.user_id, email); // ✅ Pass both user_id and email
       navigate('/dashboard');
     } catch (err) {
       alert('Invalid or expired OTP');
@@ -36,7 +36,7 @@ export default function OTPLogin({ onLogin }) {
 
   return (
     <div className="login-container">
-      <form onSubmit={e => e.preventDefault()} className="login-form">
+      <form onSubmit={(e) => e.preventDefault()} className="login-form">
         <h2 className="login-title">OTP Login</h2>
 
         <input
@@ -44,7 +44,7 @@ export default function OTPLogin({ onLogin }) {
           placeholder="Enter Email"
           className="login-input"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         {!otpSent ? (
@@ -58,7 +58,7 @@ export default function OTPLogin({ onLogin }) {
               placeholder="Enter OTP"
               className="login-input"
               value={otp}
-              onChange={e => setOtp(e.target.value)}
+              onChange={(e) => setOtp(e.target.value)}
             />
             <button type="button" className="login-button" onClick={verifyOtp}>
               Verify OTP

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// App.jsx
+import { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,34 +12,47 @@ import {
 import Dashboard from './pages/Dashboard';
 import Upload from './pages/Upload';
 import Welcome from './pages/Welcome';
-import OTPLogin from './pages/OTPLogin'; // ✅ NEW IMPORT
+import OTPLogin from './pages/OTPLogin';
+
+import { AuthProvider, useAuth } from './context/AuthContext'; // ✅ new
 
 function AppRoutes() {
-  const [userId, setUserId] = useState(localStorage.getItem('user_id'));
+  const { user, setUser } = useAuth(); // ✅ use context
   const navigate = useNavigate();
-  const location = useLocation(); // 👈 get the current route path
+  const location = useLocation();
+
+  // 🔄 Load user from localStorage on refresh
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('user_id');
+    const storedEmail = localStorage.getItem('user_email');
+    if (storedUserId && storedEmail) {
+      setUser({ id: storedUserId, email: storedEmail });
+    }
+  }, [setUser]);
 
   const handleHome = () => {
     navigate('/');
   };
 
-  const handleLogin = (id) => {
+  const handleLogin = (id, email) => {
     localStorage.setItem('user_id', id);
-    setUserId(id);
+    localStorage.setItem('user_email', email);
+    setUser({ id, email });
   };
 
   const handleLogout = () => {
     localStorage.removeItem('user_id');
-    setUserId(null);
+    localStorage.removeItem('user_email');
+    setUser(null);
     navigate('/');
   };
 
   return (
     <div>
-      {/* 👇 Conditionally render the navbar only if not on the Welcome page */}
+      {/* Navbar only if not on welcome page */}
       {location.pathname !== '/' && (
         <nav className="p-4 bg-blue-600 text-white flex justify-between">
-          <span>{userId ? `Welcome, User ${userId}` : 'DocuPort'}</span>
+          <span>{user ? `Welcome, ${user.email}` : 'DocuPort'}</span>
 
           <div className="flex gap-2">
             <button
@@ -48,7 +62,7 @@ function AppRoutes() {
               Home
             </button>
 
-            {userId && (
+            {user && (
               <button
                 onClick={handleLogout}
                 className="bg-red-500 px-3 py-1 rounded"
@@ -63,8 +77,8 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/login" element={<OTPLogin onLogin={handleLogin} />} />
-        <Route path="/dashboard" element={userId ? <Dashboard /> : <Navigate to="/login" />} />
-        <Route path="/upload" element={userId ? <Upload /> : <Navigate to="/login" />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/upload" element={user ? <Upload /> : <Navigate to="/login" />} />
       </Routes>
     </div>
   );
@@ -72,8 +86,10 @@ function AppRoutes() {
 
 export default function App() {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <AuthProvider> {/* ✅ wrap the app with context */}
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
 }
