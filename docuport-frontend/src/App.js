@@ -8,10 +8,10 @@ import {
   useLocation,
 } from 'react-router-dom';
 
-import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Upload from './pages/Upload';
 import Welcome from './pages/Welcome';
+import OTPLogin from './pages/OTPLogin'; // ✅ NEW IMPORT
 
 function AppRoutes() {
   const [userId, setUserId] = useState(localStorage.getItem('user_id'));
@@ -62,7 +62,7 @@ function AppRoutes() {
 
       <Routes>
         <Route path="/" element={<Welcome />} />
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        <Route path="/login" element={<OTPLogin onLogin={handleLogin} />} />
         <Route path="/dashboard" element={userId ? <Dashboard /> : <Navigate to="/login" />} />
         <Route path="/upload" element={userId ? <Upload /> : <Navigate to="/login" />} />
       </Routes>

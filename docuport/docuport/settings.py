@@ -151,3 +151,15 @@ AUTHENTICATION_BACKENDS = [
 STATICFILES_DIRS = [
     BASE_DIR / "frontend" / "dist",  # path to built frontend assets
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'rutvik28rutvik@gmail.com'  # your real email
+EMAIL_HOST_PASSWORD = 'nonnpxigepsrxheg'   # app password if 2FA enabled
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+

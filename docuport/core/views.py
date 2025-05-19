@@ -1,17 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, FileResponse
-from .models import Document
-from .forms import DocumentForm
-from django.contrib.auth import authenticate, login
-from django.http import JsonResponse
+from django.http import HttpResponse, FileResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-import json
 from django.contrib.auth.models import User 
+from django.contrib.auth import authenticate, login
 from django.core.files.uploadedfile import UploadedFile
+from django.core.mail import send_mail
+from django.utils import timezone
 
+import json
+import random
+from datetime import timedelta
 
-# LOGIN FUNCTIONALITY
+from .models import Document, OTP
+from .forms import DocumentForm
+
+# ------------------- Existing Functionality -------------------
+
 @login_required
 def dashboard(request):
     docs = Document.objects.filter(user=request.user)
@@ -68,4 +73,51 @@ def login_view(request):
             return JsonResponse({'message': 'Login successful', 'user_id': user.id})
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=401)
-        
+
+# ------------------- OTP Functionality -------------------
+
+@csrf_exempt
+def send_otp(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        if not email:
+            return JsonResponse({'error': 'Email is required'}, status=400)
+
+        # Generate 6-digit OTP
+        otp_code = str(random.randint(100000, 999999))
+
+        # Save OTP
+        OTP.objects.create(email=email, code=otp_code)
+
+        # Send OTP via email
+        send_mail(
+            subject='Your OTP Code',
+            message=f'Your OTP code is: {otp_code}',
+            from_email=None,  # Use DEFAULT_FROM_EMAIL from settings
+            recipient_list=[email],
+        )
+
+        return JsonResponse({'message': 'OTP sent successfully'}, status=200)
+
+@csrf_exempt
+def verify_otp(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        code = data.get('code')
+
+        if not email or not code:
+            return JsonResponse({'error': 'Email and code are required'}, status=400)
+
+        expiry_time = timezone.now() - timedelta(minutes=10)
+        otp = OTP.objects.filter(email=email, code=code, created_at__gte=expiry_time).last()
+
+        if otp:
+            user, created = User.objects.get_or_create(username=email, email=email)
+            user.backend = 'django.contrib.auth.backends.ModelBackend'  # IMPORTANT: Set backend here
+            login(request, user)
+            return JsonResponse({'message': 'Login successful', 'user_id': user.id}, status=200)
+
+        return JsonResponse({'error': 'Invalid or expired OTP'}, status=400)
+
